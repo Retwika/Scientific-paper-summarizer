@@ -839,13 +839,14 @@ def main():
         
         st.markdown("""
         This application uses **Google's Generative AI (Gemini)** to automatically 
-        summarize scientific papers. It provides:
+        summarize scientific papers and generate Python implementations. It provides:
         
         - **📋 Comprehensive Overview**: 200-300 word summary of the paper
         - **🎯 Key Findings**: 3-5 bullet points of main results
         - **🔬 Methodology**: Summary of research methods
         - **📊 Results**: Key experimental or analytical results
         - **💡 Conclusions**: Main takeaways and implications
+        - **💻 Code Generation**: Auto-generate Python implementations from methodology sections
         
         #### How It Works
         
@@ -853,23 +854,38 @@ def main():
         2. **Analyze**: The paper is analyzed for sections (Abstract, Methods, etc.)
         3. **Summarize**: Each section is summarized using AI
         4. **Synthesize**: A cohesive overview is generated
-        5. **Present**: Results are displayed in an easy-to-read format
+        5. **Generate Code**: Convert methodology into production-ready Python code
+        6. **Present**: Results are displayed in an easy-to-read format
         
         #### Features
         
         - ✅ Multiple file formats (PDF, DOCX, TXT, MD)
         - ✅ Direct text input
         - ✅ Section-aware processing
-        - ✅ Customizable AI models
+        - ✅ **Smart code generation** with type hints and docstrings
+        - ✅ **Auto-detect implementable sections** or choose any section manually
+        - ✅ **Smart caching** - avoid redundant API calls
+        - ✅ Customizable AI models (Gemini 2.5 Flash/Pro)
         - ✅ Adjustable summarization parameters
-        - ✅ Download summaries as Markdown
+        - ✅ Download summaries as Markdown or code as Python files
+        
+        #### Code Generation
+        
+        The app can automatically generate Python implementations from research papers:
+        
+        - **Auto-Detection**: Identifies sections with algorithms/methods
+        - **Manual Selection**: Choose any section or paste custom text
+        - **Production-Ready**: Generates code with type hints, docstrings, and examples
+        - **Syntax Validation**: Ensures generated code is syntactically correct
+        - **Download**: Export as `.py` files ready to use
         
         #### Technology Stack
         
-        - **AI Model**: Google Gemini (1.5 Pro / Flash)
+        - **AI Model**: Google Gemini 2.5 (Pro / Flash)
         - **Framework**: Streamlit
         - **Backend**: Python with clean architecture
-        - **Processing**: Multi-format document support
+        - **Processing**: pdfplumber, PyPDF2, python-docx
+        - **Configuration**: Pydantic with environment-based settings
         
         #### Tips for Best Results
         
@@ -877,19 +893,22 @@ def main():
         - 🎯 Lower temperature (0.1-0.3) for factual summaries
         - 📊 Higher temperature (0.5-0.7) for creative interpretation
         - 📑 PDFs with good text quality work best
+        - 💻 For code generation, papers with clear algorithm descriptions work best
         
         #### Privacy & Security
         
-        - Files are processed locally and not stored
+        - Files are processed temporarily and not stored
         - Temporary files are deleted after processing
         - Only text content is sent to Google's API
         - No data is saved or shared
+        - API keys are stored securely in session state
         
         ---
         
         **Version**: 1.0.0  
-        **Built with**: Streamlit + Google Gemini  
-        **License**: MIT
+        **Built with**: Streamlit + Google Gemini + Pydantic  
+        **License**: MIT  
+        **GitHub**: [Scientific-paper-summarizer](https://github.com/Retwika/Scientific-paper-summarizer)
         """)
         
         # Show current settings
@@ -905,7 +924,7 @@ def main():
     st.markdown("---")
     st.markdown(
         '<div style="text-align: center; color: #666;">'
-        '🚀 Powered by Google Gemini | Built with Streamlit | © 2025'
+        '🚀 Powered by Google Gemini | Built with Streamlit | © 2026'
         '</div>',
         unsafe_allow_html=True
     )
