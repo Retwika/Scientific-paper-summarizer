@@ -406,14 +406,8 @@ Tip: In Streamlit Cloud, add GOOGLE_API_KEY under Settings > Secrets before firs
 
 If problems persist, run: `python main.py --file data/sample_paper.txt --verbose` to see pipeline logs.
 
-1. Push code to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect repository
-4. Add API key as secret
-5. Deploy!
-
-(*Full deployment guide removed during repo cleanup; the above steps are sufficient.*)
-
+## Streamlit app
+For direct use - https://scientific-paper-summarizer.streamlit.app/
 ---
 
 ## 🤝 Contributing
