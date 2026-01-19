@@ -47,7 +47,10 @@ outputs/*
 # Sample files
 *.pdf
 *.docx
-*.txt
+
+# Text files in data directories only
+data/*.txt
+outputs/*.txt
 
 # Logs
 *.log
