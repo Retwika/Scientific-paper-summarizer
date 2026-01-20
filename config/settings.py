@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     """
     # API Configuration
     google_api_key: str = Field(
-        default=""
+        default="",
         description="Google API Key for Generative AI"
     )
     
