@@ -396,20 +396,15 @@ def main():
         key="api_key_input"
     )
 
-    # Update IMMEDIATELY when input changes
-    if api_key_input and api_key_input != st.session_state['api_key']:
-        st.session_state['api_key'] = api_key_input.strip()
-        settings.google_api_key = api_key_input.strip()
+    # Update session state when input changes
+    if api_key_input != st.session_state['api_key']:
+        st.session_state['api_key'] = (api_key_input or "").strip()
+        # Clear cached agent when key changes
         initialize_agent.clear()
-
-    # Also update settings even if session state already has it
-    if st.session_state['api_key']:
-        settings.google_api_key = st.session_state['api_key']
-
+    
     # Add clear button for convenience
     if st.sidebar.button("🗑️ Clear Key", help="Clear the API key", use_container_width=True):
         st.session_state['api_key'] = ""
-        settings.google_api_key = ""
         initialize_agent.clear()
         st.rerun()
 
