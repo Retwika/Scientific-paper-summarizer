@@ -97,7 +97,7 @@ class Settings(BaseSettings):
     
     def validate_api_key(self) -> bool:
         """Validate that API key is set."""
-        return bool(self.google_api_key and self.google_api_key != "")
+        return bool(self.google_api_key and len(self.google_api_key) > 10)
 
 
 # Global settings instance
