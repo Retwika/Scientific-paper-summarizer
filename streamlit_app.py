@@ -383,10 +383,10 @@ def main():
     
     # API Key configuration (allow input from UI)
     st.sidebar.markdown("### 🔑 API Key")
-    # Initialize session state for API key (cleared on browser close)
+        # Initialize session state for API key (cleared on browser close)
     if 'api_key' not in st.session_state:
         st.session_state['api_key'] = ""
-    
+
     api_key_input = st.sidebar.text_input(
         "Google API Key",
         type="password",
@@ -395,28 +395,34 @@ def main():
         help="🔒 Stored only in browser session - automatically cleared when you close the tab",
         key="api_key_input"
     )
-    
-    # Update session state when key changes (auto-apply)
-    if api_key_input != st.session_state['api_key']:
-        st.session_state['api_key'] = (api_key_input or "").strip()
+
+    # Update IMMEDIATELY when input changes
+    if api_key_input and api_key_input != st.session_state['api_key']:
+        st.session_state['api_key'] = api_key_input.strip()
+        settings.google_api_key = api_key_input.strip()
         initialize_agent.clear()
-    
+
+    # Also update settings even if session state already has it
+    if st.session_state['api_key']:
+        settings.google_api_key = st.session_state['api_key']
+
     # Add clear button for convenience
     if st.sidebar.button("🗑️ Clear Key", help="Clear the API key", use_container_width=True):
         st.session_state['api_key'] = ""
+        settings.google_api_key = ""
         initialize_agent.clear()
         st.rerun()
-    
+
     # Validate and show status (uses session state from settings.py)
     if settings.validate_api_key():
         st.sidebar.success("✅ API Key Configured")
         st.sidebar.info("🔒 Key cleared when tab closes")
     else:
-        st.sidebar.error("⚠️ API Key Missing.")
+        st.sidebar.error("⚠️ API Key Missing")
         st.sidebar.info("Enter your Google API key above")
         st.sidebar.markdown(
-        "💡 **Don't have an API key?**  \n"
-        "Get one free at: [Google AI Studio](https://makersuite.google.com/app/apikey)"
+            "💡 **Don't have an API key?**  \n"
+            "Get one free at: [Google AI Studio](https://makersuite.google.com/app/apikey)"
         )
         st.stop()
     
