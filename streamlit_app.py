@@ -412,8 +412,12 @@ def main():
         st.sidebar.success("✅ API Key Configured")
         st.sidebar.info("🔒 Key cleared when tab closes")
     else:
-        st.sidebar.error("⚠️ API Key Missing")
+        st.sidebar.error("⚠️ API Key Missing.")
         st.sidebar.info("Enter your Google API key above")
+        st.sidebar.markdown(
+        "💡 **Don't have an API key?**  \n"
+        "Get one free at: [Google AI Studio](https://makersuite.google.com/app/apikey)"
+        )
         st.stop()
     
     # Model selection
