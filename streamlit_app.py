@@ -401,10 +401,13 @@ def main():
         st.session_state['api_key'] = (api_key_input or "").strip()
         # Clear cached agent when key changes
         initialize_agent.clear()
+
+    settings.google_api_key = st.session_state['api_key']
     
     # Add clear button for convenience
     if st.sidebar.button("🗑️ Clear Key", help="Clear the API key", use_container_width=True):
         st.session_state['api_key'] = ""
+        settings.google_api_key = ""
         initialize_agent.clear()
         st.rerun()
 
