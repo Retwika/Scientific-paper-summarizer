@@ -96,9 +96,19 @@ class Settings(BaseSettings):
         self.data_dir.mkdir(parents=True, exist_ok=True)
     
     def validate_api_key(self) -> bool:
-        """Validate that API key is set."""
-        return bool(self.google_api_key and len(self.google_api_key) > 10)
+    """
+    Validate API key from session state or settings.
+    Prioritizes session state for security.
+    """
+    try:
+        import streamlit as st
+        # Check session state first (most secure)
+        session_key = st.session_state.get('api_key', '')
+        active_key = session_key or self.google_api_key
+    except:
+        active_key = self.google_api_key
+        
+    key = (active_key or "").strip()
+    return bool(key) and key.startswith("AIza") and len(key) > 30
 
-
-# Global settings instance
 settings = Settings()
