@@ -383,26 +383,37 @@ def main():
     
     # API Key configuration (allow input from UI)
     st.sidebar.markdown("### 🔑 API Key")
-    existing = bool(settings.validate_api_key())
+    # Initialize session state for API key (cleared on browser close)
+    if 'api_key' not in st.session_state:
+        st.session_state['api_key'] = ""
+    
     api_key_input = st.sidebar.text_input(
         "Google API Key",
         type="password",
+        value=st.session_state['api_key'],
         placeholder="Enter or paste key",
-        help="Key stored only in session (prefer Streamlit Secrets in cloud)."
+        help="🔒 Stored only in browser session - automatically cleared when you close the tab",
+        key="api_key_input"
     )
-    if st.sidebar.button("Apply Key", use_container_width=True):
-        if api_key_input.strip():
-            os.environ["GOOGLE_API_KEY"] = api_key_input.strip()
-            settings.google_api_key = api_key_input.strip()
-            initialize_agent.clear()  
-            st.sidebar.success("API Key applied")
-        else:
-            st.sidebar.warning("Empty key ignored")
+    
+    # Update session state when key changes (auto-apply)
+    if api_key_input != st.session_state['api_key']:
+        st.session_state['api_key'] = (api_key_input or "").strip()
+        initialize_agent.clear()
+    
+    # Add clear button for convenience
+    if st.sidebar.button("🗑️ Clear Key", help="Clear the API key", use_container_width=True):
+        st.session_state['api_key'] = ""
+        initialize_agent.clear()
+        st.rerun()
+    
+    # Validate and show status (uses session state from settings.py)
     if settings.validate_api_key():
         st.sidebar.success("✅ API Key Configured")
+        st.sidebar.info("🔒 Key cleared when tab closes")
     else:
         st.sidebar.error("⚠️ API Key Missing")
-        st.sidebar.info("Enter key above or set GOOGLE_API_KEY in .env")
+        st.sidebar.info("Enter your Google API key above")
         st.stop()
     
     # Model selection
